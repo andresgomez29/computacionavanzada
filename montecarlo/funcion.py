@@ -24,7 +24,7 @@ class Function:
       factor = f1 * f2
     else:
       factor = 0
-    self.val_gamma = 0.0420 +  factor
+    self.val_gamma = 0.00407 +  factor
     return  self.val_gamma
 
   def funcD(self,s):
@@ -84,20 +84,20 @@ if __name__ == '__main__':
   ms = 75
   lash = 0.1
   val = Function(ms,lash)
-  fac = int(1e11)
+  fac = int(1e1)
   xMin = 4*ms**2
   xMax = fac*xMin
   res1 = minimize_scalar(lambda x: -val.funcion_int(x), bounds=(xMin,xMax), method='bounded')
   res2 = minimize_scalar(lambda x: abs(val.funcion_int(x) - 10), bounds=(res1.x,xMax), method='bounded')
   res3 = minimize_scalar(lambda x: abs(val.funcion_int(x)),bounds=(xMin,xMax), method='bounded')
   
-  #x = np.linspace(xMin,xMax,int(1e6))
+  x = np.linspace(xMin,xMax,1000000)
   #x = np.arange(xMin,xMax,1)
   y = val.funcion_int(x)
 
   texto = r'f(' + str(ms) + ','+ str(lash) + ')'
   plt.figure(figsize=(9.0,5.5))
-  plt.plot(x,y,'ro',label=texto)
+  plt.plot(x,y,'ko',label=texto)
   plt.title(r'Comportamiento de la función de interes $f(m_{S},\lambda_{SH}$)',size=25)
   plt.xscale('log')
   plt.xlabel(r'$\boldsymbol{E_{s}}$',size=30)
