@@ -24,7 +24,7 @@ class Integrador:
     return self.var
 
   def __str__(self):
-    texto = r"El valor de la integral es " + str(self.integral()) + " y su error es: " + str(self.varianza())
+    texto = r"El valor de la integral es " + str(self.integral()) + " y su error es: " + str(np.sqrt(abs(self.varianza())))
     return texto
 
 

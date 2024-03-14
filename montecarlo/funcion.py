@@ -67,7 +67,7 @@ class Function:
     return 1e17*(fsup/finf)
 
 
-  
+
 if __name__ == '__main__': 
   from scipy.optimize import minimize_scalar
   import matplotlib as mpl
@@ -91,7 +91,7 @@ if __name__ == '__main__':
   res2 = minimize_scalar(lambda x: abs(val.funcion_int(x) - 10), bounds=(res1.x,xMax), method='bounded')
   res3 = minimize_scalar(lambda x: abs(val.funcion_int(x)),bounds=(xMin,xMax), method='bounded')
   
-  x = np.linspace(xMin,xMax,1000000)
+  x = np.linspace(xMin,xMax,100000)
   #x = np.arange(xMin,xMax,1)
   y = val.funcion_int(x)
 
