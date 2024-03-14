@@ -8,6 +8,7 @@ class Integrador:
     self.a = inter[0]
     self.b = inter[1]
     self.datos = (self.b - self.a) * np.random.random_sample((self.N)) + self.a
+    #print(self.datos)
     self.F = f_(self.datos)
     self.E = 0
     self.var = 0
@@ -23,7 +24,7 @@ class Integrador:
     return self.var
 
   def __str__(self):
-    texto = r"El valor de la integral es " + str(round(self.integral(),4)) + " y su error es: " + str(self.varianza())
+    texto = r"El valor de la integral es " + str(self.integral()) + " y su error es: " + str(self.varianza())
     return texto
 
 
@@ -49,8 +50,14 @@ class IntegradorEstratificado:
     self.var = np.sum(sum)
     return self.var
 
+  def get_integral(self):
+    return self.E
+  
+  def get_varianza(self):
+    return self.var
+
   def __str__(self):
-    texto = r'El valor de la integral es: '+ str(round(self.integral(),4)) + " y su error  es: " + str(self.varianza())
+    texto = r'El valor de la integral es: '+ str(self.integral()) + " y su error  es: " + str(self.varianza())
     #texto = r'El valor de la integral es: '+ str(self.integral())
     return texto
 
