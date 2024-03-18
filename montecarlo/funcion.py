@@ -12,6 +12,8 @@ class Function:
     self.vev = 246 #GeV Valor esperado del vacío
     self.val_gamma = 0
     self.T = 20 * self.Ms #Colocamos un valor de x = 20
+    self.Mw=80.4
+    self.Mz=90.4
 
   def rat(self,m):
     return m/self.mh
@@ -32,39 +34,62 @@ class Function:
     f2 = self.mh**2 * self.gamma(self.Ms)**2
     return 1 / (f1 + f2)
 
-
   def sigma_rel(self,s):
     f1 = (2*(self.lash*self.vev)**2) / (s**0.5)
-    f2 = self.funcD(s) * self.gamma(self.Ms)
-    return f1*f2
+    return f1*self.funcD(s) * self.gamma(self.Ms)
+  
+  def sigma_higgs(self,s):
+    
+    vs=(1- (4*(self.Ms)**2)/s)**0.5
+    vh=(1- (4*(self.mh)**2)/s)**0.5
+    
+    t_plus=self.Ms**2 +self.mh**2 -0.5*s*(1-vs*vh)
+    t_minus=self.Ms**2 +self.mh**2 -0.5*s*(1+vs*vh)
+    
+    aR=1+ 3*(self.mh**2) * (s-self.mh**2)*self.funcD(s)
+    aI=3*(self.mh**2)*((s)**0.5) *self.gamma(self.Ms)*self.funcD(s)
+    
+    f=self.lash**2 /(16*np.pi*s**2 *vs)
+    
+    f1=(aR**2 +aI**2)*s*vs*vh
+    f2=4*self.lash*self.vev**2 *(aR-(self.lash* self.vev**2)/(s-2*self.mh**2))*np.log(abs((self.Ms**2-t_plus)/(self.Ms**2-t_minus)))
+    f3=(2*self.lash**2*self.vev**4 *s*vs*vh)/((self.Ms**2-t_minus)*(self.Ms**2-t_plus))
+    
+    return f*(f1+f2+f3)
+  
+  def sigma_Boson_W(self,s):
+    x=self.Mw**2 /s
+    vW=(1-4*x)**0.5
+    
+    f=vW*self.lash**2 *s/(8*np.pi)
+    f1=self.funcD(s)*(1-4*x+12*x**2)
+    
+    return f*f1
+  
+  def sigma_Bonson_Z(self,s):
+      x=self.Mz**2 /s
+      vW=(1-4*x)**0.5
+    
+      f=0.5*vW*self.lash**2 *s/(8*np.pi)
+      f1=self.funcD(s)*(1-4*x+12*x**2)
+    
+      return f*f1
+    
+    
 
   def funcion_int(self,s):
     cond = s - (2*self.Ms)**2
-    #print(cond)
     '''
-    def func(s):
-      return s - (2*self.Ms)**2
-
-    if (len(cond)!=0):
-      f1 = []
-      for i in cond:
-        if (i>=0):
-          f1.append(s * (func(i)**0.5))
-        else:
-          f1.append(0) 
-        print(f1)
-      #if (cond>=0):
-        
-      #else:
-        #f1 = 0
+    if (cond>=0):
+      f1 = s * np.sqrt(cond)
+    else:
+      f1 = 0
     '''
-    f1 = s * (np.sqrt(cond))
-    #for i in cond: 
-      #print(i)
-    #print(cond)
-    fsup = f1 * kn(1,np.sqrt(s)/self.T) * self.sigma_rel(s)
+    suma = self.sigma_rel(s)+self.sigma_higgs(s) +self.sigma_Bonson_Z(s) +self.sigma_Boson_W(s) 
+    f1 = s * np.sqrt(cond)
+    fsup = f1 * kn(1,np.sqrt(s)/self.T) * suma
     finf = 16*self.T*(self.Ms**4)*kn(2,self.Ms/self.T)
-    return 1e17*(fsup/finf)
+    return 1e9*(fsup/finf)
 
 
 

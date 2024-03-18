@@ -2,29 +2,30 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 class Integrador:
-  def __init__(self,f_,N_,inter = [0,1]):
+  def __init__(self,f_,N_,inter):
     self.f = f_
     self.N = N_
     self.a = inter[0]
     self.b = inter[1]
     self.datos = (self.b - self.a) * np.random.random_sample((self.N)) + self.a
-    #print(self.datos)
     self.F = f_(self.datos)
-    self.E = 0
-    self.var = 0
     self.div = self.b - self.a
+    self.E = self.integral()
+    self.var = self.varianza()
+    
 
   def integral(self):
-    self.E = self.div*np.sum(self.F) / self.N
-    return self.E
+    return self.div*np.sum(self.F) / self.N
 
   def varianza(self):
     elementos = self.F**2
-    self.var = (self.div**2)*((np.sum(elementos)/self.N) - self.E**2)
-    return self.var
+    return (self.div**2)*((np.sum(elementos)/self.N) - self.E**2)
 
   def __str__(self):
-    texto = r"El valor de la integral es " + str(self.integral()) + " y su error es: " + str(np.sqrt(abs(self.varianza())))
+    factor = 1.13e-17
+    texto = r"El resultado es " + str(self.integral()) + "\n"
+    texto += r"Con error " + str(np.sqrt(abs(self.varianza()))) + "\n"
+    texto += r"Cross Section en cm^3/s = " + str(factor*self.E)
     return texto
 
 
@@ -33,22 +34,20 @@ class IntegradorEstratificado:
     self.f = f_
     self.N = N_
     self.I = I_
-    self.E = 0
-    self.var = 0
-
+    self.E = self.integral()
+    self.var = self.varianza()
+    
   def integral(self):
-    sum = []
+    suma = []
     for i in range(len(self.I)):
-      sum.append(Integrador(self.f,self.N[i],inter = self.I[i]).integral())
-    self.E = np.sum(sum)
-    return self.E
+      suma.append(Integrador(self.f,self.N[i],inter = self.I[i]).integral()) 
+    return np.sum(suma)
 
   def varianza(self):
-    sum = []
+    suma = []
     for i in range(len(self.I)):
-      sum.append(Integrador(self.f,self.N[i],inter = self.I[i]).varianza())
-    self.var = np.sum(sum)
-    return self.var
+      suma.append(Integrador(self.f,self.N[i],inter = self.I[i]).varianza())
+    return np.sum(suma)
 
   def get_integral(self):
     return self.E
@@ -57,10 +56,12 @@ class IntegradorEstratificado:
     return self.var
 
   def __str__(self):
-    texto = r'El valor de la integral es: '+ str(self.integral()) + " y su error  es: " + str(self.varianza())
-    #texto = r'El valor de la integral es: '+ str(self.integral())
+    factor = 1.13e-17
+    texto = r"El resultado es " + str(self.E) + "\n"
+    texto += r"Con error " + str(np.sqrt(abs(self.var))) + "\n"
+    texto += r"Cross Section en cm^3/s = " + str(factor*self.E)
     return texto
-
+  
 
 if __name__ == '__main__': 
   f2 = lambda x: np.sin(x) / x
@@ -75,8 +76,7 @@ if __name__ == '__main__':
   LINEA1 = 5
   LINEA2 = 15
   plt.axvline(LINEA1, color="red", linewidth=1, linestyle="dashed",ymin=-0.3,ymax=0.1)
-  plt.axvline(LINEA2, color="cyan", linewidth=1, linestyle="dashed",ymin=-0.3,ymax=0.27)
-  
+  plt.axvline(LINEA2, color="cyan", linewidth=1, linestyle="dashed",ymin=-0.3,ymax=0.27)  
   n1 = 1e6
   n2 = 1e4
   n3 = 1e3
