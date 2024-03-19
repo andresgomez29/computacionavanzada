@@ -1,8 +1,20 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+'''
+------------------------------------------------------------------------------------------------------------
+Crea una clase llamada integrador, tiene las siguientes caracteristicas:
+Parametros: 
+  -f_ : Función a integrar. 
+  -N_ : Cantidad de puntos para intergrar. 
+  -inter : Intervalo a integrar la función f.
 
-#Define una clase que nos permite integrar mediante el termino de montecarlo "normal", recibe una funcionm el numero de puntos y el intervalo de integracion
+Metodos:
+  -integral() : Calcula la integral por medio del método de monte carlo. 
+  -varianza() : Calcula la varianza del método usado. 
+  -__str__()  : Me imprime un mensaje con los calculos de la integral, varianza y sección tranvesarl.
+------------------------------------------------------------------------------------------------------------
+'''
 class Integrador:
   def __init__(self,f_,N_,inter):
     self.f = f_
@@ -12,27 +24,39 @@ class Integrador:
     self.datos = (self.b - self.a) * np.random.random_sample((self.N)) + self.a #Generacion de un arreglo con N numeros aleatorios en el intervalo [a,b]
     self.F = f_(self.datos) #Genera un arreglo con la funcion evaluada en los N numeros aleatorios generados
     self.div = self.b - self.a #Volumen 
-    self.E = self.integral() 
-    self.var = self.varianza()
-    
-  #Integracion por Montecarlo
+    self.E = self.integral() #Almacena el valor de la integral
+    self.var = self.varianza() #Almacena el valor de la varianza
+      
   def integral(self):
     return self.div*np.sum(self.F) / self.N
 
-  #Caluclo de Varianza
   def varianza(self):
     elementos = self.F**2
     return (self.div**2)*((np.sum(elementos)/self.N) - self.E**2)
 
-  #Imprime los valores de la integral y la varianza
   def __str__(self):
-    factor = 1.13e-17
+    factor = 1.13e-17 #Factor para conversión de unidades.
     texto = r"El resultado es " + str(self.integral()) + "\n"
     texto += r"Con error " + str(np.sqrt(abs(self.varianza()))) + "\n"
     texto += r"Cross Section en cm^3/s = " + str(factor*self.E)
     return texto
 
+'''
+------------------------------------------------------------------------------------------------------------
+Crea una clase llamada IntegradorEstratificado, tiene las siguientes caracteristicas:
+Parametros: 
+  -f_ : Función a integrar. 
+  -N_ : Vector con la cantidad de puntos para intergrar. 
+  -inter : Vector con los intervalo a integrar la función f.
 
+Metodos:
+  -integral() : Calcula la integral, esta se hace haciendo uso de la clase Integral.  
+  -varianza() : Calcula la varianza, por medio de los hecho en la clase Integral.
+  -__str__()  : Me imprime un mensaje con los calculos de la integral, varianza y sección tranvesarl.
+  -get_integral() : Me permite obtener el valor de la integral. 
+  -get_varianza() : Me permite obtener el valor de la varianza. 
+------------------------------------------------------------------------------------------------------------
+'''
 #Define una clase para el metodo de integracion de motecarlo estratificado
 class IntegradorEstratificado:
   def __init__(self,f_,N_,I_):
@@ -42,33 +66,28 @@ class IntegradorEstratificado:
     self.E = self.integral()
     self.var = self.varianza()
    
-  #Calcula el valor de la integral
   def integral(self):
     suma = [] #Lista donde se almacenan los valores de la integral de cada parametro.
     for i in range(len(self.I)):
       suma.append(Integrador(self.f,self.N[i],inter = self.I[i]).integral()) #Realiza la integral en cada uno de los intervalos
     return np.sum(suma) #Retorna el valor de la integral al sumar cada uno de los valors en cada intervalo
 
-  #Calucla el valor  de la varianza
+  
   def varianza(self):
     suma = []
     for i in range(len(self.I)):
       suma.append(Integrador(self.f,self.N[i],inter = self.I[i]).varianza()) #Suma de las varianzas individuales en cada intervalo
     return np.sum(suma) 
   
-  #Funcion que reforma el valor de la integral
   def get_integral(self):
     return self.E
   
-  #Funcion que retorna el valor de la varianza
   def get_varianza(self):
     return self.var
 
-  #Funcion que retorna los valores de la integral y la varianza
   def __str__(self):
-    factor = 1.17e-17
+    factor = 1.13e-17 #Factor para conversión de unidades.
     texto = r"El resultado es " + str(self.E) + "\n"
     texto += r"Con error " + str(np.sqrt(abs(self.var))) + "\n"
     texto += r"Cross Section en cm^3/s = " + str(factor*self.E)
     return texto
-  
