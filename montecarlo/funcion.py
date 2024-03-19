@@ -11,9 +11,13 @@ class Function:
     self.mh = 125  #GeV  Masa del bosón de Higgs
     self.vev = 246 #GeV Valor esperado del vacío
     self.val_gamma = 0
-    self.T = 20 * self.Ms #Colocamos un valor de x = 20
+    self.T = 25.9 * self.Ms #Colocamos un valor de x = 20
     self.Mw=80.4
     self.Mz=90.4
+    self.Mt=173.34
+    self.Mb=4.19
+    self.Mst=140e-3
+    self.Mch=1350e-3
 
   def rat(self,m):
     return m/self.mh
@@ -36,8 +40,9 @@ class Function:
 
   def sigma_rel(self,s):
     f1 = (2*(self.lash*self.vev)**2) / (s**0.5)
-    return f1*self.funcD(s) * self.gamma(self.Ms)
-  
+    f2 = self.funcD(s) * self.gamma(self.Ms)
+    return f1*f2
+
   def sigma_higgs(self,s):
     
     vs=(1- (4*(self.Ms)**2)/s)**0.5
@@ -74,8 +79,14 @@ class Function:
       f1=self.funcD(s)*(1-4*x+12*x**2)
     
       return f*f1
+
+  def sigma_fermions_quarks(self,s,m):
+    Xq=3*(1 + (4*0.12)/(3*np.pi) *((3/2)*np.log(m**2/s) +9/4))
+    vf=(1-4*m**2 /s)**0.5
+    f=(self.lash**2 *m**2) /(4*np.pi)
+    f1=Xq*vf**3 *self.funcD(s)
     
-    
+    return f*f1
 
   def funcion_int(self,s):
     cond = s - (2*self.Ms)**2
@@ -85,11 +96,11 @@ class Function:
     else:
       f1 = 0
     '''
-    suma = self.sigma_rel(s)+self.sigma_higgs(s) +self.sigma_Bonson_Z(s) +self.sigma_Boson_W(s) 
+    suma = (self.sigma_rel(s)+self.sigma_higgs(s) +self.sigma_Bonson_Z(s) +self.sigma_Boson_W(s) + self.sigma_fermions_quarks(s,self.Mt)+  self.sigma_fermions_quarks(s,self.Mb) +self.sigma_fermions_quarks(s,self.Mch)+ self.sigma_fermions_quarks(s,self.Mst))
     f1 = s * np.sqrt(cond)
     fsup = f1 * kn(1,np.sqrt(s)/self.T) * suma
     finf = 16*self.T*(self.Ms**4)*kn(2,self.Ms/self.T)
-    return 1e9*(fsup/finf)
+    return (fsup/finf)
 
 
 

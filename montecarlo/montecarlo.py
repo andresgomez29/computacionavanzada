@@ -56,7 +56,7 @@ class IntegradorEstratificado:
     return self.var
 
   def __str__(self):
-    factor = 1.13e-17
+    factor = 1.17e-17
     texto = r"El resultado es " + str(self.E) + "\n"
     texto += r"Con error " + str(np.sqrt(abs(self.var))) + "\n"
     texto += r"Cross Section en cm^3/s = " + str(factor*self.E)

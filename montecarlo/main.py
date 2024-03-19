@@ -20,8 +20,8 @@ plt.rcParams['text.latex.preamble'] = r"\usepackage{bm} \usepackage{amsmath}"
 
 if __name__ == '__main__':
 	ms = 200 
-	lash = 0.1
-	fac = int(1e4)
+	lash = 0.01
+	fac = int(3e4)
 	xMin = 4*ms**2
 	xMax = fac*xMin
 	f = func.Function(ms,lash).funcion_int
@@ -41,14 +41,14 @@ if __name__ == '__main__':
 		return arreglo
 
 
-	#x = np.linspace(xMin+1,xMax,int(1e6))
-	#y1 = f(x)
+	x = np.linspace(xMin+1,xMax,int(1e6))
+	y1 = f(x)
 
-	n = 9  # Número de elementos en la secuencia
+	n = 13  # Número de elementos en la secuencia
 	elemento1 = [(lambda i=i: 1/2**i)() for i in range(n)]
 
 	plt.figure(figsize=(9.0,5.5))
-	#plt.plot(x,y1,'ko',label='Comportamiento de la función')
+	plt.plot(x,y1,'ko',label='Comportamiento de la función')
 	plt.title(r'Comportamiento de la función de interes $f(m_{S},\lambda_{SH}$)',size=25)
 
 	I_estratificado = [] 
@@ -59,23 +59,24 @@ if __name__ == '__main__':
 		texto = r'Valor ' + str(i)
 		plt.axvline(p, color="red", linewidth=1, linestyle="dashed",label=texto)
 
-	
+	plt.axvline(xMin,color="red", linewidth=1, linestyle="dashed",label=texto)
+	plt.axvline(xMax,color="red", linewidth=1, linestyle="dashed",label=texto)
 	I_estratificado = generar_intervalos(elementos)
 	plt.xscale('log')
 	plt.xlabel(r'$\boldsymbol{E_{s}}$',size=30)
 	plt.ylabel(r'$\boldsymbol{f(' + str(ms) + ','+ str(lash) + ')}$',size=30)
 	plt.xticks(fontsize=20)
 	plt.yticks(fontsize=20)
-	plt.legend(fontsize=13)
+	#plt.legend(fontsize=13)
 	plt.tight_layout()
 	plt.savefig('muestra.png')
 
 	I_t = [xMin,xMax]
 	N = int(1e6)
-	#s1 = m.Integrador(f,N,I_t)
+	s1 = m.Integrador(f,N,I_t)
 	print("Integral con el método normal")
-	#print(s1)
-	N1 = 1000000
+	print(s1)
+	N1 = 10000000
 	N2 = 10000
 	
 	N_estratificado = [int(N1)]
@@ -84,10 +85,10 @@ if __name__ == '__main__':
 		N_estratificado.append(N2)
 
 	
-	#s2 = m.IntegradorEstratificado(f,N_estratificado,I_estratificado)
+	s2 = m.IntegradorEstratificado(f,N_estratificado,I_estratificado)
 	print("Integral con el método estratificado")
-	#print(s2)
-	#plt.show()
+	print(s2)
+	plt.show()
 	df = pd.read_csv('InteraccionDM-P.csv')
 	#print(df)
 
@@ -97,4 +98,4 @@ if __name__ == '__main__':
 	datos.append(df['Mass DM'])
 	datos.append(df['SSHH'])
 	datos = np.array(datos).T
-	print(datos[0][0])
+	#print(datos[0][0])
