@@ -24,9 +24,9 @@ Es un método main, usado con el fin de aplicar los métodos de montecarlo y fun
 
 ## Contribuidores: 
 
-- [x]Gustavo Adolfo Castrillon : gadolfo.castrillon@udea.edu.co
+- Gustavo Adolfo Castrillon : gadolfo.castrillon@udea.edu.co
 
-- [x]Andres Gomez: andres.gomez29@udea.edu.co
+- Andres Gomez: andres.gomez29@udea.edu.co
 
 ## License: 
 
