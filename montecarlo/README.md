@@ -13,9 +13,13 @@ Este repositorio toma relevancia a la hora del cálculo de las densidades reliqu
 ## Archivos: 
 El presente apartado está compuesto de 3 archivos de interés. 
 
-Funcion.py: Este contiene una clase de python creada a partir de los archivos considerados anteriormente, donde los parámetros de la clase están relacionados a los parámetros libres del modelo, estos son: la masa de la partícula de materia oscura y la constante de acoplamiento con el bosón de Higgs. La clase en términos generales, generará un valor numérico en función de la energía s suministrada a la función. 
-montecarlo.py: Este archivo contiene los métodos computacionales usados para integrar, estos son: Integrador e Integrado Estratificado. Estos métodos se encargan de aplicar los métodos de Montecarlo normal y estratificado respectivamente. 
-Main.py: Es un método main, usado con el fin de aplicar los métodos de montecarlo y funcion, este únicamente se encarga de ejecutar estos dos métodos debidamente para calcular la integral de interés y realizar los respectivos gráficos. 
+### Funcion.py: 
+Este contiene una clase de python creada a partir de los archivos considerados anteriormente, donde los parámetros de la clase están relacionados a los parámetros libres del modelo, estos son: la masa de la partícula de materia oscura y la constante de acoplamiento con el bosón de Higgs. La clase en términos generales, generará un valor numérico en función de la energía s suministrada a la función. 
+
+### montecarlo.py: 
+Este archivo contiene los métodos computacionales usados para integrar, estos son: Integrador e Integrado Estratificado. Estos métodos se encargan de aplicar los métodos de Montecarlo normal y estratificado respectivamente. 
+### Main.py: 
+Es un método main, usado con el fin de aplicar los métodos de montecarlo y funcion, este únicamente se encarga de ejecutar estos dos métodos debidamente para calcular la integral de interés y realizar los respectivos gráficos. 
 
 
 ## Contribuidores: 
