@@ -32,7 +32,7 @@ class Integrador:
 
   def varianza(self):
     elementos = self.F**2
-    return (self.div**2)*((np.sum(elementos)/self.N) - self.E**2)
+    return ((self.div**2)*(np.sum(elementos)/self.N) - self.E**2)
 
   def __str__(self):
     factor = 1.13e-17 #Factor para conversión de unidades.
