@@ -3,6 +3,8 @@
 Este apartado del proyecto contiene código relacionado a usar métodos de monte carlo para solucionar problemas en el cálculo de integrales de materia oscura, en este caso estamos considerando un el modelo del singlete escalar, en consideración de los siguientes artículos: 
 
 - https://arxiv.org/pdf/1006.2518.pdf
+- https://arxiv.org/pdf/1306.4710.pdf
+- https://arxiv.org/pdf/hep-ph/0011335.pdf
 	
 La idea principal es usar métodos de monte carlo para calcular calcular secciones transversales térmicas usando métodos normales de montecarlo y estratificados. 
 
