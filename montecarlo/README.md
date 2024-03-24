@@ -28,5 +28,3 @@ Es un método main, usado con el fin de aplicar los métodos de montecarlo y fun
 
 - Andres Gomez: andres.gomez29@udea.edu.co
 
-## License: 
-
