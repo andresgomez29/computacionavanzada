@@ -12,6 +12,8 @@ Parametros:
 Metodos:
   -integral() : Calcula la integral por medio del método de monte carlo. 
   -varianza() : Calcula la varianza del método usado. 
+  -get_estimate(): Obtiene el valor del estimado.
+  -get_var(): Obtiene el valor del error.
   -__str__()  : Me imprime un mensaje con los calculos de la integral, varianza y sección tranvesarl.
 ------------------------------------------------------------------------------------------------------------
 '''
@@ -32,12 +34,19 @@ class Integrador:
 
   def varianza(self):
     elementos = self.F**2
-    return (self.div**2)*((np.sum(elementos)/self.N) - self.E**2)
+    return ((self.div**2)*(np.sum(elementos)/self.N) - self.E**2)
+  
+  def get_estimate(self):
+    return self.E
+  
+  def get_var(self):
+    return np.sqrt(self.var)
+  
 
   def __str__(self):
     factor = 1.13e-17 #Factor para conversión de unidades.
     texto = r"El resultado es " + str(self.integral()) + "\n"
-    texto += r"Con error " + str(np.sqrt(abs(self.varianza()))) + "\n"
+    texto += r"Con error " + str(np.sqrt(self.varianza())) + "\n"
     texto += r"Cross Section en cm^3/s = " + str(factor*self.E)
     return texto
 

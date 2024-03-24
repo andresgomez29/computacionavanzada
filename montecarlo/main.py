@@ -19,8 +19,8 @@ if __name__ == '__main__':
 	ms = 200 #Valor de la masa 
 	lash = 0.1 #Valor de la constante de acoplamiento con el Higgs
 	fac = int(3e4) #Factor para hallar el valor del infinito
-	xMin = 4*ms**2
-	xMax = fac*xMin
+	xMin = 4*ms**2 #Punto inicial de la zona de integracion
+	xMax = fac*xMin  #Punto final de la zona de integarcion
 
 	f = func.Function(ms,lash).funcion_int #Función que deseamos integrar
 
@@ -55,13 +55,13 @@ if __name__ == '__main__':
 			arreglo.append((vect[i],vect[i+1])) 
 		return arreglo
 
-	#La siguiente parte de graficar la f(x) para corroborar el comportamiento.
+	#La siguiente parte se encarga de graficar f(x) para corroborar el comportamiento.
 	x = np.linspace(xMin+1,xMax,int(1e6))
 	y1 = f(x)
 
-	n = 13  #Cantidad de particiones para los intervalos 
+	n = 15  #Cantidad de particiones para los intervalos 
 	#Me crea un arreglo con los valores que deseo calcular a partir del valor maximo. 
-	elemento1 = [(lambda i=i: 1/2**i)() for i in range(n)] 
+	elemento1 = [(lambda i=i: 0.5**i)() for i in range(n)] 
 
 	plt.figure(figsize=(9.0,5.5))
 	plt.plot(x,y1,'ko',label='Comportamiento de la función')
@@ -90,25 +90,65 @@ if __name__ == '__main__':
 	#-----------------------------------------------------------------------------------------------------------
 	#Este apartado usa Integrador, el cual es un método de Monte Carlo normal para integrar la función f
 	I_normal = [xMin,xMax] #Intervalos entre los cuales deseo integrar
-	N_normal = int(1e6) #Cantidad de puntos para integrar
+	N_normal = int(1e5) #Cantidad de puntos para integrar
+	Nl=[10,int(1e2),int(1e3),int(1e4),int(1e5),int(1e6),int(1e7),int(1e8)] #Numero de puntos aleatorios con los que se explorara la convergencia del estimado
 
 	s_normal = m.Integrador(f,N_normal,I_normal)
 	print("Integral con el método normal")
 	print(s_normal) #Imprime el resultado de la integral junto con su varianza y el valor calculado de la cross section
+	
+ #Almacena los valores del estimado y el error para cada unos de los valores de la lista Nl
+	value_Est=[]
+	value_var=[]
+	for i in range(len(Nl)):
+		s_Monte=m.Integrador(f,Nl[i],I_normal)
+		value_Est.append(s_Monte.get_estimate())
+		value_var.append(s_Monte.get_var())
+  
+	
+
+
+		
+     
 	#-----------------------------------------------------------------------------------------------------------
 	#-----------------------------------------------------------------------------------------------------------
 	#Este apartado usa IntegradorEstratificado, el cual es un método de Monte Carlo estratificado para integrar 
 	#la función f
-	N1 = 10000000 #Cantidad de puntos para integrar en el primer intervalos.
+	N1 = 1000000 #Cantidad de puntos para integrar en el primer intervalos.
 	N2 = 10000 #Cantidad de puntos para integrar en el resto de intervalos.
 	
 	N_estratificado = [int(N1)]
 	#Crea un vector de puntos para integrar. 
 	for i in range(len(I_estratificado)-1):
-		N_estratificado.append(N2)
+		N_estratificado.append(int(N2/(i+1)))
 
 	s_estratificado = m.IntegradorEstratificado(f,N_estratificado,I_estratificado)
 	print("Integral con el método estratificado")
 	print(s_estratificado) #Imprime el resultado de la integral junto con su varianza y el valor calculado de la cross section
 	#-----------------------------------------------------------------------------------------------------------
 	plt.show()
+ 
+ 
+ #Grafica la convergencia del estimado para Montecarlo Normal con los valores de Nlist
+	plt.figure()
+	plt.grid()
+	plt.xscale("log")
+	plt.xlabel("N")
+	plt.ylabel("Estimado")
+	plt.plot(Nl,value_Est,"ko")
+	plt.title("Convergencia Integral")
+
+	plt.show()
+ 
+ #Grafica la convergencia del error para Montecarlo Normal con los valores de Nlist .
+	plt.figure()
+	plt.grid()
+	plt.xscale("log")
+	plt.xlabel("N")
+	plt.ylabel("Error")
+	plt.plot(Nl,value_var,"ko")
+	plt.title("Convergencia error")
+	plt.show()
+
+
+ 
