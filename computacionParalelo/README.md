@@ -1,10 +1,9 @@
-# Integración por medio de métodos de monte carlo 
+# Estudio del espacio de parámetros usando algoritmos genéticos y computación en paralelo. 
 
 Este apartado del proyecto contiene código relacionado al uso de algoritmos genéticos para el estudio del espacio de parámetros, ademas de ello se aplica un apartado de paralelización para verificar si este método de la computación es más eficiente en terminos de tiempo que la programación en forma serializada.
 
-- https://arxiv.org/pdf/1006.2518.pdf
-- https://arxiv.org/pdf/1306.4710.pdf
-- https://arxiv.org/pdf/hep-ph/0011335.pdf
+- 
+ 
 	
 La idea principal es estudiar la función de rosenbrock con 4 parámetros diferentes. Este espacio de parámetros será calculado por un algoritmo conocido como differential_evolution. El codigo aquí presente hace uso de varías estrategias para el estudio más general de la función a interés. 
 
