@@ -48,18 +48,15 @@ def de_scan(dim,my_rank,round_to_nearest=None,nombre_ = 'datos'):
         return chi_sq_
 
     
-    if my_rank == 0:
-    	#print("Ejecutando 0")
-    	estrategia = 'best1bin'
-    elif my_rank == 1: 
-    	#print("Ejecutando 1")
-    	estrategia = 'rand1bin'
-    elif my_rank == 2:
-    	#print("Ejecutando 2")
-    	estrategia = 'randtobest1bin'
-    else: 
-    	#print("Ejecutando default")
-    	estrategia='best2bin'
+    if my_rank==0:
+        estrategia="best1bin"
+    elif my_rank==1:
+        estrategia="rand1bin"
+    elif my_rank==2:
+        estrategia='randtobest1bin'
+    else:
+        estrategia='best2bin'
+    	
     print("Mi rank es "+str(my_rank) + ", mi estrategia es "+str(estrategia))
     
     differential_evolution(objective, bounds,
@@ -68,18 +65,20 @@ def de_scan(dim,my_rank,round_to_nearest=None,nombre_ = 'datos'):
 	                           polish=False, seed=seed)
 
     print(nombre_)
-    np.save(nombre_,x)
+    np.save(nombre_,x_chi)
     print("Almacenado " + str(nombre_))
     return np.array(x),len(x)
 
-if __name__ == '__main__':
-	tO = time.time()
+if __name__=="__main__":
+     t0=time.time()
+     seed=16
+     for i in range(4):
+          my_rank=i
+          nombre= 'datos_DE' + str(my_rank) +"_Serie"
+          de_scan(4,my_rank,nombre_=nombre)
+     de_time=time.time() -t0
+     print("Tiempo de ejecuion en serie: ", de_time, "segundos")
+     with open("TiempoSerie.txt","w") as archivo:
+          archivo.write(str(de_time) + " segundos")
 
-	seed = 16
-	for i in range(4):
-		my_rank = i
-		nombre = 'datos_DE' + str(my_rank)
-		de_scan(4,my_rank,nombre_ = nombre)
-	de_time = time.time() - tO 
-	de_time = de_time/60
-	print("Tiempo de ejecución: ", de_time, " minutos") 
+    

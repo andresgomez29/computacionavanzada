@@ -18,15 +18,21 @@ datos2 = df2[df2['loglikelihood']<5.56]
 datos3 = df3[df3['loglikelihood']<5.56]
 datos4 = df4[df4['loglikelihood']<5.56]
 
+best_index = df1["loglikelihood"].idxmin()  # Obtiene el índice del valor mínimo en la columna "loglikelihood"
+best_point = df1.loc[best_index]  # Selecciona la fila correspondiente al índice del valor mínimo
+
 print("Generando grafico")
 
 fig, ax = plt.subplots(figsize=(14, 10))  
 
 ax.plot(datos1['x1'], datos1['x2'], '.',color='red')
+
 ax.plot(datos2['x1'], datos2['x2'], '.',color='red')
 ax.plot(datos3['x1'], datos3['x2'], '.',color='red')
 ax.plot(datos4['x1'], datos4['x2'], '.',color='red')
-ax.set_title('Espacio de parámetros total',size=25)
+ax.plot(best_point["x1"],best_point["x2"],"o",color="white",label="Bestpoint")
+ax.legend()
+ax.set_title('Espacio de parámetros Total',size=25)
 ax.set_xlabel('$x_{1}$', size=25)
 ax.set_ylabel('$x_{2}$', size=25)
 ax.tick_params(axis='x', labelsize=17)
