@@ -2,7 +2,13 @@
 
 Este apartado del proyecto contiene código relacionado al uso de algoritmos genéticos para el estudio del espacio de parámetros, ademas de ello se aplica un apartado de paralelización para verificar si este método de la computación es más eficiente en terminos de tiempo que la programación en forma serializada.
 
-- 
+- S. Das and P. Suganthan, Differential evolution: A surveyof the state-of-the-art, IEEE Transactions on Evolutionary Computation , 4 (2011).
+- R. Storn and K. Price, Differential evolution—a simple and efficient heuristic for global optimization over continuous spaces, J. Global Optimiz., vol. 11, pp. 341–359 (1997).
+- J. Brest, S. Greiner, B. Boskovic, M. Mernik, and V. Zumer, Self-adapting control parameters in differential evolution: A comparative study on numerical benchmark problems, Evolutionary Computation, IEEE Transactions , 646–657 (2006).
+- SciPy Contributors, scipy.optimize.differential evolution, https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.differential\_evolution.html.
+- P. Rodriguez Mier, A tutorial on differential evolution with python (2017), consultado en Octubre 31, 2023.
+- J. Qiang, A unified differential evolution algorithm for global optimization, (2014).
+- S. S. AbdusSalam, F. J. Agocs, B. C. Allanach, P. Athron, C. Bal´azs, E. Bagnaschi, P. Bechtle, O. Buchmueller, A. Beniwal, J. Bhom, et al., Simple and statistically sound recommendations for analysing physical theories, Reports on Progress in Physics 85, 052201 (2022)
  
 	
 La idea principal es estudiar la función de rosenbrock con 4 parámetros diferentes. Este espacio de parámetros será calculado por un algoritmo conocido como differential_evolution. El codigo aquí presente hace uso de varías estrategias para el estudio más general de la función a interés. 
