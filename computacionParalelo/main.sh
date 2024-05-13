@@ -6,13 +6,13 @@ mkdir salida 2>/dev/null
 
 echo "Generando datos"
 
-mpiexec -n 4 python paralell_main.py
+mpiexec -n 4 python3 paralell_main.py
 echo "Fin de la generación"
 
 echo "Graficando datos"
 
-python graficador1.py
-python graficador2.py
+python3 graficador1.py
+python3 graficador2.py
 
 echo "Graficado con exito"
 echo "Puedes ver las imagenes guardadas como:"
